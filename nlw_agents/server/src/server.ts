@@ -2,6 +2,7 @@ import { fastify } from 'fastify'
 import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod' 
 import { fastifyCors } from '@fastify/cors'
 import { env } from './env.ts'
+import { sql } from './db/connection.ts'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
