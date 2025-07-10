@@ -7,8 +7,17 @@ import { getRoomsRoute } from './http/routes/get-rooms.ts'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
+
 app.register(fastifyCors, {
-    origin: 'http://localhost:5173'
+  origin: [
+    'http://localhost:5173',
+    /\.app\.github\.dev$/, // Permite todos os Codespaces
+    'https://' + process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  maxAge: 86400
 })
 
 app.setSerializerCompiler(serializerCompiler)
@@ -20,6 +29,9 @@ app.get('/health', () => {
 
 app.register(getRoomsRoute)
 
-app.listen({ port: env.PORT}).then(() => {
-   console.log('runinnf')
+app.listen({
+  port: env.PORT,
+  host: '0.0.0.0' // ESSENCIAL para Codespaces
+}).then(() => {
+  console.log(`Server running on port ${env.PORT}`)
 })
