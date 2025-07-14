@@ -28,7 +28,7 @@ export function CreateRoomForm() {
  
     async function handleCreateRoom({name, description,}:CreateRoomFormData ){
         await createRoom({ name, description })
-        await createRoomForm.reset()
+        createRoomForm.reset()
     }
    
 
