@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { z } from 'zod/v4'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
-import { Button } from "./button";
-import { Input } from "./input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { useCreateRoom } from "@/http/use-create-room";
 
 
 const createRoomSchema = z.object({
@@ -15,6 +16,8 @@ const createRoomSchema = z.object({
 type CreateRoomFormData = z.infer<typeof createRoomSchema>
 
 export function CreateRoomForm() {
+    const { mutateAsync: createRoom  } = useCreateRoom()
+ 
    const createRoomForm = useForm<CreateRoomFormData>({
     resolver: zodResolver(createRoomSchema),
     defaultValues: {
@@ -23,8 +26,9 @@ export function CreateRoomForm() {
     },
    })
  
-    function handleCreateRoom(data:CreateRoomFormData ){
-        console.log(data)
+    async function handleCreateRoom({name, description,}:CreateRoomFormData ){
+        await createRoom({ name, description })
+        await createRoomForm.reset()
     }
    
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { dayjs } from '@/lib/dayjs'
-import { useRooms } from '@/http/types/use-rooms'
+import { useRooms } from '@/http/use-rooms'
 
 
 export function RoomList()  {
